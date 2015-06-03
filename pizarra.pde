@@ -1,161 +1,70 @@
-ArrayList lineas;
-Linea temporal;
-boolean mode;
-int count;
-float grosor;
-float alfa; 
-float h; // hue
-float luz;
-float sat;
-String lastLineWeight;
+/*
+ *                             
+ * Pizarra
+ * 
+ * dibujo para proyectores
+ *
+ * @hspencer
+ *
+ */
 
-Gui GROSOR, ALFA, CROMA;
+ArrayList lineas;                   // todas las líneas del dibujo
+Linea temporal;                     // la línea que se está dibujando
+boolean fondoNegro;                 // modo blanco o negro
+int count;                          // contador de líneas
+float grosor;                       // grosor de la línea
+
+color blanco = color(255, 200);
+color negro = color(0, 200);
 
 void setup() {
-  size(displayWidth, displayHeight); //pantalla completa
+  size(displayWidth, displayHeight); // pantalla completa
   smooth();                          // suavizado (anti-alisaing)
-  background(0);                     // fondo negro
-  stroke(255);
-  strokeWeight(2);
-  // strokeCap(PROJECT);
-  lineas = new ArrayList();
+  // fondo negro
+
+  strokeCap(ROUND);
+  lineas = new ArrayList<Linea>();
   temporal = new Linea();
   count = 0;
-  mode = true;
+  fondoNegro = true;
   noFill();
   grosor = 1;
-  font = createFont("Monaco", 10);
-  textFont(font, 10);
-  rectMode(CORNERS);
-  GROSOR = new Gui(10, 100, 20, 200);
-  ALFA   = new Gui(10, 200, 20, 300);
-  CROMA  = new Gui(10, 300, 20, 400);
-  colorMode(HSB, 1, 1, 1, 1);
-  lastLineWeight = "";
+  cursor(CROSS);
 }
 
 void draw() {
+
+  strokeWeight(grosor);
+
   noFill();
-  if (mode) {
-    background(0, 0, 0);
+  if (fondoNegro) {
+    background(negro);
+    stroke(blanco);
+  } else {
+    background(blanco);
+    stroke(negro);
   }
-  else {
-    background(0, 0, 1);
+
+  // SHIFT para una línea recta
+  if (keyPressed && mousePressed && key == CODED && keyCode == SHIFT) {
+    /* 
+     la línea temporal debe ser de 2 puntos, para que sea recta, 
+     se deja el primer punto y el segundo es la posición del mouse.
+     */
+    if (temporal.puntos.size() > 2) {
+      for (int i = 2; i < temporal.puntos.size (); i++) {
+        temporal.puntos.remove(i);
+      }
+    } 
+    PVector last = new PVector(mouseX, mouseY);
+    temporal.puntos.add(last);
   }
-  
-  GROSOR.draw();
-  grosor = GROSOR.yval;
- 
-  ALFA.draw();
-  CROMA.draw();
-  
-  stroke(CROMA.yval, 1, 1, ALFA.yval);
-  line(15, 500, 15, 500 + grosor);
 
   for (int i = 0; i < count; i++) {
     Linea lin = (Linea)lineas.get(i);
     lin.draw();
   }
+  temporal.g= grosor;
   temporal.draw();
-  printvals();
-}
-
-
-void mousePressed() {
-  PVector punto = new PVector(mouseX, mouseY);
-  temporal.puntos.add(punto);
-}
-
-void mouseDragged() {
-  PVector punto = new PVector(mouseX, mouseY);
-  temporal.c = color(CROMA.yval, 1, 1, 1 - ALFA.yval);
-  temporal.g = GROSOR.yval * 100;
-  temporal.puntos.add(punto);
-}
-
-void mouseReleased() {
-  lineas.add(temporal);
-  lastLineWeight = ""+temporal.g;
-
-  temporal = new Linea();
-  count++;
-}
-
-void keyPressed() {
-  String filename = "img/"+year()+"-"+month()+"-"+day()+"--"+hour()+"-"+minute()+"-"+second()+".png";
-  if (key == 'm') {
-    mode = !mode;
-  }
-
-  if (key == 's') {
-    saveFrame(filename);
-  }
-
-  if (key == 'z') {
-    if (count > 0) {
-      count --;
-      lineas.remove(lineas.size()-1);
-    }
-  }
-
-  if (key == ' ') {
-    lineas.clear();
-    count = 0;
-  }
-
-  if (key == ',') {
-    if (grosor > 1) {
-      grosor --;
-    }
-  }
-  if (key == '.') {
-    grosor ++;
-  }
-}
-
-PFont font;
-void printvals() {
-  fill(1);
-  text(grosor +", "+lastLineWeight, 10, height - 20);
-  text(millis()+"\t"+ mouseX+"\t"+mouseY, 10, 20);
-}
-
-class Gui {
-
-  float x1, x2, y1, y2;
-  float xval, yval;
-
-  Gui(float x1, float y1, float x2, float y2) {
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;
-    xval = x1;
-    yval = y1;
-  }
-
-  void calc() {
-    if ( 
-    mouseX < this.x2 && 
-      mouseX > this.x1 && 
-      mouseY > this.y1 && 
-      mouseY < this.y2) {
-
-      xval = map(mouseX, x1, x2, 0, 1);
-      yval = map(mouseY, y1, y2, 0, 1);
-    }
-  }
-
-  void draw() {
-    calc();
-    noStroke();
-    // rect(x1, y1, x2, y2);
-    fill(CROMA.yval, 0, 1);
-    beginShape();
-    vertex(x1, y1);
-    vertex(x2, y1);
-    vertex((x1 + x2)/2, y2);
-    endShape();
-  }
 }
 
