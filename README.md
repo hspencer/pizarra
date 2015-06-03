@@ -7,11 +7,11 @@ Pequeña y simple aplicación desarrollada en [Processing](https://processing.or
 ## Instrucciones
 Comandos del teclado:
 
-- **<code>m</code>** permite cambiar entre fondo negro y fondo blanco
-- **<code>s</code>** graba la pantalla actual <code>/img/#####.png</code>. La carpeta <code>img</code> es relativa a la ruta de la aplicación y <code>######</code> equivale al nombre del archivo construido a partir de la fecha y hora para generar un archivo único.
-- **<code>z</code>** elimina la última línea (deshacer)
-- **<code>,</code>** y **<code>.</code>** modifican el grosor del trazo
-- **<code>SHIFT</code>** permite crear líneas rectas al dibujar
+- **`m`** permite cambiar entre fondo negro y fondo blanco
+- **`s`** graba la pantalla actual `/img/#####.png`. La carpeta `img` es relativa a la ruta de la aplicación y `######` equivale al nombre del archivo construido a partir de la fecha y hora para generar un archivo único.
+- **`z`** elimina la última línea (deshacer)
+- **`,`** y **`.`** modifican el grosor del trazo
+- **`SHIFT`** permite crear líneas rectas al dibujar
 
 ## Descargar
 * [Windows 32 Bits](application.windows32.zip)
