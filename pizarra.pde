@@ -18,7 +18,7 @@ color blanco = color(255, 200);
 color negro = color(0, 200);
 
 void setup() {
-  size(displayWidth, displayHeight); // pantalla completa
+  size(900, 600); // pantalla completa
   smooth();                          // suavizado (anti-alisaing)
   // fondo negro
 
@@ -67,4 +67,83 @@ void draw() {
   temporal.g= grosor;
   temporal.draw();
 }
+
+class Linea {
+  ArrayList puntos;
+  float g = 1; // grosor
+  color c = blanco;
+
+  Linea() {
+    puntos = new ArrayList<PVector>();
+  } 
+
+  Linea(float x1, float y1, float x2, float y2) {
+    puntos = new ArrayList<PVector>();
+  }
+
+  void draw() {
+    strokeWeight(g);
+    if (fondoNegro) {
+      stroke(blanco);
+    } else {
+      stroke(negro);
+    }
+    beginShape();
+    for (int i = 0; i < puntos.size (); i++) {
+      PVector punto = (PVector)puntos.get(i);
+      vertex(punto.x, punto.y);
+    }
+    endShape();
+  }
+}
+
+void mousePressed() {
+  PVector punto = new PVector(mouseX, mouseY);
+  temporal.puntos = new ArrayList<PVector>();
+}
+
+void mouseDragged() {
+  PVector punto = new PVector(mouseX, mouseY);
+  temporal.puntos.add(punto);
+}
+
+void mouseReleased() {
+  lineas.add(temporal);
+  temporal.g = grosor;
+  temporal = new Linea();
+  count++;
+}
+
+void keyPressed() {
+  String filename = "img/"+year()+"-"+month()+"-"+day()+"--"+hour()+"-"+minute()+"-"+second()+".png";
+  if (key == 'm') {
+    fondoNegro = !fondoNegro;
+  }
+
+  if (key == 's') {
+    saveFrame(filename);
+  }
+
+  if (key == 'z') {
+    if (count > 0) {
+      count --;
+      lineas.remove(lineas.size()-1);
+    }
+  }
+
+  if (key == ' ') {
+    lineas.clear();
+    count = 0;
+  }
+
+  if (key == ',') {
+    grosor ++;
+  }
+  if (key == '.') {
+    if (grosor > 1) {
+      grosor --;
+    }
+  }
+}
+
 
