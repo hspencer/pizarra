@@ -45,7 +45,7 @@ public void setup() {
   //pixelDensity(2);
                             // suavizado (anti-alisaing)
   // fondo negro
-tablet = new Tablet(this); 
+  tablet = new Tablet(this); 
   strokeCap(ROUND);
   lineas = new ArrayList<Linea>();
   temporal = new Linea();
@@ -53,7 +53,7 @@ tablet = new Tablet(this);
   fondoNegro = true;
   noFill();
   grosor = 1;
-  grosores = new float[32]; // buffer de 32 grosores 
+  grosores = new float[16]; // buffer de 16 grosores 
   cursor(CROSS);
   contador = 0;
 }
@@ -90,9 +90,17 @@ public void draw() {
   }
   contador %= grosores.length;
   grosores[contador] = grosor;
-  temporal.g = grosor;
+  temporal.g = getAverage(grosores);
   temporal.draw();
   contador++;
+}
+
+public float getAverage(float[] a) {
+  float val = 0;
+  for (int i = 0; i < a.length; i++) {
+    val += a[i];
+  }
+  return (val / (float)a.length);
 }
 class Linea {
   ArrayList puntos;
@@ -173,7 +181,7 @@ public void keyPressed() {
 }
   public void settings() {  fullScreen();  smooth(); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "pizarra" };
+    String[] appletArgs = new String[] { "--present", "--window-color=#666666", "--hide-stop", "pizarra" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

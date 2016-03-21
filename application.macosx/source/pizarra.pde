@@ -27,7 +27,7 @@ void setup() {
   //pixelDensity(2);
   smooth();                          // suavizado (anti-alisaing)
   // fondo negro
-tablet = new Tablet(this); 
+  tablet = new Tablet(this); 
   strokeCap(ROUND);
   lineas = new ArrayList<Linea>();
   temporal = new Linea();
@@ -35,7 +35,7 @@ tablet = new Tablet(this);
   fondoNegro = true;
   noFill();
   grosor = 1;
-  grosores = new float[32]; // buffer de 32 grosores 
+  grosores = new float[16]; // buffer de 16 grosores 
   cursor(CROSS);
   contador = 0;
 }
@@ -72,7 +72,15 @@ void draw() {
   }
   contador %= grosores.length;
   grosores[contador] = grosor;
-  temporal.g = grosor;
+  temporal.g = getAverage(grosores);
   temporal.draw();
   contador++;
+}
+
+float getAverage(float[] a) {
+  float val = 0;
+  for (int i = 0; i < a.length; i++) {
+    val += a[i];
+  }
+  return (val / (float)a.length);
 }
