@@ -1,16 +1,20 @@
 void mousePressed() {
-  PVector punto = new PVector(mouseX, mouseY);
+  // PVector punto = new PVector(mouseX, mouseY);
   temporal.puntos = new ArrayList<PVector>();
 }
 
 void mouseDragged() {
   PVector punto = new PVector(mouseX, mouseY);
   temporal.puntos.add(punto);
+  grosor = 15 * tablet.getPressure();
+  grosor = constrain(grosor, 1, 20);
+  temporal.g = grosor;
 }
 
 void mouseReleased() {
+  // le resto 5 pasos, para recuperar el grosor anterior 5 ciclos atrás
+  temporal.g = grosores[abs((contador - 5) % grosores.length)];
   lineas.add(temporal);
-  temporal.g = grosor;
   temporal = new Linea();
   count++;
 }
@@ -46,4 +50,3 @@ void keyPressed() {
     }
   }
 }
-

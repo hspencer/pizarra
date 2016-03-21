@@ -1,15 +1,12 @@
 class Linea {
   ArrayList puntos;
-  float g = 1; // grosor
+  float g = 2; // grosor
   color c = blanco;
 
   Linea() {
     puntos = new ArrayList<PVector>();
   } 
 
-  Linea(float x1, float y1, float x2, float y2) {
-    puntos = new ArrayList<PVector>();
-  }
 
   void draw() {
     strokeWeight(g);
@@ -26,4 +23,3 @@ class Linea {
     endShape();
   }
 }
-

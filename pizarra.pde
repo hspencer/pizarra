@@ -8,20 +8,26 @@
  *
  */
 
+import codeanticode.tablet.*;
+Tablet tablet;
+
 ArrayList lineas;                   // todas las líneas del dibujo
 Linea temporal;                     // la línea que se está dibujando
 boolean fondoNegro;                 // modo blanco o negro
 int count;                          // contador de líneas
 float grosor;                       // grosor de la línea
+float[] grosores;                   // buffer de grosores
+int contador;
 
 color blanco = color(255, 200);
 color negro = color(0, 200);
 
 void setup() {
-  size(displayWidth, displayHeight); // pantalla completa
+  fullScreen();
+  //pixelDensity(2);
   smooth();                          // suavizado (anti-alisaing)
   // fondo negro
-
+  tablet = new Tablet(this); 
   strokeCap(ROUND);
   lineas = new ArrayList<Linea>();
   temporal = new Linea();
@@ -29,13 +35,13 @@ void setup() {
   fondoNegro = true;
   noFill();
   grosor = 1;
+  grosores = new float[16]; // buffer de 16 grosores 
   cursor(CROSS);
+  contador = 0;
 }
 
 void draw() {
-
   strokeWeight(grosor);
-
   noFill();
   if (fondoNegro) {
     background(negro);
@@ -64,7 +70,17 @@ void draw() {
     Linea lin = (Linea)lineas.get(i);
     lin.draw();
   }
-  temporal.g= grosor;
+  contador %= grosores.length;
+  grosores[contador] = grosor;
+  temporal.g = getAverage(grosores);
   temporal.draw();
+  contador++;
 }
 
+float getAverage(float[] a) {
+  float val = 0;
+  for (int i = 0; i < a.length; i++) {
+    val += a[i];
+  }
+  return (val / (float)a.length);
+}
