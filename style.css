@@ -1,7 +1,41 @@
-html, body {
-  margin: 0;
-  padding: 0;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap');
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
 }
+
 canvas {
-  display: block;
+    display: block;
+}
+
+.controls {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+button {
+    font-size: 14px;
+    border: 2px solid rgba(148, 148, 148, 0.267);
+    color: rgb(119, 119, 119);
+    background-color: transparent;
+    padding: 1ex 1em 1ex .5em;
+    border-radius: 1ex;
+    text-transform: uppercase;
+}
+
+button i {
+    margin-right: 1ex;
+}
+
+button:hover {
+    border: 2px solid rgba(177, 177, 177, 0.267);
+    ;
+    background-color: #FFFFFF33;
+}
+
+.counter {
+    color: gray;
 }

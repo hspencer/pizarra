@@ -1,15 +1,30 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
     <script src="p5.js"></script>
     <script src="p5.dom.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="icons/style.css">
     <meta charset="utf-8">
+    <title>Pizarrón</title>
 
-  </head>
-  <body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
     <script src="vars.js"></script>
     <script src="interactions.js"></script>
     <script src="Linea.js"></script>
     <script src="sketch.js"></script>
-  
+    <div class="controls">
+        <button onmouseover="preventDrawing();" onmouseout="allowDrawing();" onclick="newDrawing();"><i class="icon-file-new"></i>new</button>
+        <button onmouseover="preventDrawing();" onmouseout="allowDrawing();" onclick="undo();"><i class="icon-undo"></i>undo</button>
+        <button onmouseover="preventDrawing();" onmouseout="allowDrawing();" onclick="downloadImage();"><i class="icon-arrow-down"></i>save</button>
+        <button onmouseover="preventDrawing();" onmouseout="allowDrawing();" id="modeSwitch" onclick="toggleMode();"><i class="icon-radio-unchecked"></i>dark mode</button>
+        <button onmouseover="preventDrawing();" onmouseout="allowDrawing();" id="lineSwitch" onclick="toogleLine();"><i class="icon-radio-unchecked"></i>free line</button>
+    </div>
+</body>
 
-</body></html>
+</html>
